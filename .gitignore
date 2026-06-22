@@ -1,0 +1,19 @@
+# Secrets
+.env
+
+# Backend
+backend/build/
+backend/.gradle/
+backend/bin/
+*.class
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store

@@ -1,0 +1,53 @@
+# Base config (prod defaults). Dev overrides in application-dev.yml.
+spring:
+  application:
+    name: split-it
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:splitit}
+    username: ${DB_USER:splitit}
+    password: ${DB_PASSWORD:splitit}
+  jpa:
+    hibernate:
+      ddl-auto: validate   # schema owned by db/init.sql, never by Hibernate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USER:}
+    password: ${MAIL_PASS:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:true}
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-hours: ${JWT_EXPIRATION_HOURS:24}
+  invitation:
+    expiration-days: ${INVITATION_EXPIRATION_DAYS:7}
+  # Phase 5 ReminderScheduler reads this via @Scheduled(cron = "${app.reminder.cron}").
+  # Spring cron: sec min hour day month weekday. Default: Mondays 09:00.
+  reminder:
+    cron: ${REMINDER_CRON:0 0 9 * * MON}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true

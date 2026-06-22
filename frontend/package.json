@@ -1,0 +1,26 @@
+{
+  "name": "split-it-frontend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ionic/vue": "^8.3.0",
+    "@ionic/vue-router": "^8.3.0",
+    "axios": "^1.7.7",
+    "pinia": "^2.2.4",
+    "vue": "^3.5.0",
+    "vue-i18n": "^9.14.0",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
+    "vue-tsc": "^2.1.6"
+  }
+}

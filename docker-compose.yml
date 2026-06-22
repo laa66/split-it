@@ -1,0 +1,60 @@
+# Base (prod) stack. Dev overrides live in docker-compose.override.yml (auto-loaded by `docker compose`).
+# `make prod` runs this file only.
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-splitit}
+      POSTGRES_USER: ${POSTGRES_USER:-splitit}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-splitit}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-splitit} -d ${POSTGRES_DB:-splitit}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-splitit}
+      DB_USER: ${POSTGRES_USER:-splitit}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-splitit}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_HOURS: ${JWT_EXPIRATION_HOURS:-24}
+      INVITATION_EXPIRATION_DAYS: ${INVITATION_EXPIRATION_DAYS:-7}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASS: ${MAIL_PASS}
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
+      REMINDER_CRON: ${REMINDER_CRON:-0 0 9 * * MON}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Prod web tier: nginx serving the built frontend + proxying /api to backend.
+  web:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:

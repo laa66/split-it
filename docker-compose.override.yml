@@ -1,0 +1,51 @@
+# Dev overrides — auto-loaded by `docker compose` (i.e. `make up`).
+# Vite hot-reload frontend, Mailhog as local SMTP, backend on dev profile, ports exposed.
+
+services:
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      MAIL_HOST: mailhog
+      MAIL_PORT: 1025
+      MAIL_USER: ""
+      MAIL_PASS: ""
+      APP_BASE_URL: http://localhost:5173
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/src:/app/src:ro
+
+  # Dev frontend: Vite dev server with hot-reload, proxies /api to backend (same-origin, no CORS).
+  # Replaces the prod nginx `web` service — in dev you hit http://localhost:5173.
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      target: dev
+    command: npm run dev -- --host 0.0.0.0
+    environment:
+      VITE_API_BASE_URL: /api
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+
+  # nginx prod tier not needed in dev — Vite serves on :5173.
+  web:
+    profiles: ["disabled"]
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # web UI
+    restart: unless-stopped
+
+  db:
+    ports:
+      - "5432:5432"

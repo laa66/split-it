@@ -1,0 +1,12 @@
+{
+  "app": {
+    "title": "Split-it"
+  },
+  "home": {
+    "heading": "Welcome to Split-it",
+    "scaffold": "Application scaffold is running."
+  },
+  "common": {
+    "language": "Language"
+  }
+}
