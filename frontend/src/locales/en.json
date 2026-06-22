@@ -8,5 +8,23 @@
   },
   "common": {
     "language": "Language"
+  },
+  "auth": {
+    "login": "Sign in",
+    "register": "Sign up",
+    "email": "Email",
+    "displayName": "Display name",
+    "password": "Password",
+    "submit": "Continue",
+    "loginCta": "Sign in",
+    "registerCta": "Sign up",
+    "haveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "invalidCredentials": "Invalid email or password",
+    "emailTaken": "This email is already taken",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "invalidEmail": "Please enter a valid email address",
+    "genericError": "Something went wrong. Please try again.",
+    "logout": "Log out"
   }
 }

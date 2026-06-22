@@ -1,5 +1,7 @@
 # Secrets
 .env
+.claude
+dokumentacja.md
 
 # Backend
 backend/build/

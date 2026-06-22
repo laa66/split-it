@@ -8,5 +8,23 @@
   },
   "common": {
     "language": "Język"
+  },
+  "auth": {
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "email": "E-mail",
+    "displayName": "Nazwa użytkownika",
+    "password": "Hasło",
+    "submit": "Dalej",
+    "loginCta": "Zaloguj się",
+    "registerCta": "Zarejestruj się",
+    "haveAccount": "Masz już konto?",
+    "noAccount": "Nie masz konta?",
+    "invalidCredentials": "Nieprawidłowy e-mail lub hasło",
+    "emailTaken": "Ten adres e-mail jest już zajęty",
+    "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
+    "invalidEmail": "Podaj prawidłowy adres e-mail",
+    "genericError": "Coś poszło nie tak. Spróbuj ponownie.",
+    "logout": "Wyloguj"
   }
 }
