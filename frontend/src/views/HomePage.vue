@@ -1,31 +1,34 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ t('app.title') }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button @click="switchLocale('pl')">PL</ion-button>
-          <ion-button @click="switchLocale('en')">EN</ion-button>
-          <ion-button @click="onLogout">{{ t('auth.logout') }}</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <h1>{{ t('home.heading') }}</h1>
-      <p>{{ t('home.scaffold') }}</p>
-      <p>API health: <strong>{{ health }}</strong></p>
-    </ion-content>
-  </ion-page>
+  <PageContainer :title="t('app.title')">
+    <template #toolbar-end>
+      <ion-button @click="switchLocale('pl')">PL</ion-button>
+      <ion-button @click="switchLocale('en')">EN</ion-button>
+      <ion-button @click="onLogout">{{ t('auth.logout') }}</ion-button>
+    </template>
+
+    <div class="stack stack-6">
+      <header class="stack stack-2">
+        <h1>{{ t('home.heading') }}</h1>
+        <p class="m-0 text-medium">{{ t('home.scaffold') }}</p>
+      </header>
+
+      <AppCard>
+        <div class="flex items-center justify-between">
+          <span>{{ t('home.apiHealth') }}</span>
+          <ion-chip :color="healthColor">{{ health }}</ion-chip>
+        </div>
+      </AppCard>
+    </div>
+  </PageContainer>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButtons, IonButton,
-} from '@ionic/vue';
+import { IonButton, IonChip } from '@ionic/vue';
+import PageContainer from '@/components/PageContainer.vue';
+import AppCard from '@/components/AppCard.vue';
 import apiClient from '@/api/client';
 import { setLocale, type AppLocale } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
@@ -34,6 +37,12 @@ const { t } = useI18n();
 const router = useRouter();
 const auth = useAuthStore();
 const health = ref('...');
+
+const healthColor = computed(() => {
+  if (health.value === 'UP') return 'success';
+  if (health.value === 'DOWN') return 'danger';
+  return 'medium';
+});
 
 function switchLocale(locale: AppLocale) {
   setLocale(locale);

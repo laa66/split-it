@@ -1,0 +1,52 @@
+/*
+ * Tailwind v4 entry for Split-it.
+ *
+ * Preflight is intentionally NOT imported. Tailwind's base reset would override
+ * Ionic's own base styles and our h1/h2/h3 + ion-card tuning in variables.css.
+ * We only pull in the theme (CSS variables / utility tokens) and the utilities.
+ *
+ * Tokens are NOT duplicated here. The @theme inline block below maps Tailwind's
+ * theme namespaces onto the single source of truth in variables.css via var().
+ * `inline` is required: our tokens live on :root, so without it the generated
+ * utilities would resolve var() in the wrong scope.
+ */
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme inline {
+  /* palette — reference Ionic color variables (bg-primary, text-danger, ...) */
+  --color-primary: var(--ion-color-primary);
+  --color-secondary: var(--ion-color-secondary);
+  --color-tertiary: var(--ion-color-tertiary);
+  --color-success: var(--ion-color-success);
+  --color-danger: var(--ion-color-danger);
+  --color-warning: var(--ion-color-warning);
+  --color-medium: var(--ion-color-medium);
+  --color-surface: var(--app-surface);
+  --color-surface-muted: var(--app-surface-muted);
+  --color-border: var(--app-border-color);
+
+  /* spacing — our scale (drives p-*, m-*, gap-*, ...) */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+
+  /* radius (rounded-sm/md/lg) */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  /* shadow (shadow-sm/md) */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+
+  /* page max-width (max-w-page) */
+  --container-page: var(--page-max-width);
+}

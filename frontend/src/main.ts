@@ -11,6 +11,9 @@ import '@ionic/vue/css/normalize.css';
 import '@ionic/vue/css/structure.css';
 import '@ionic/vue/css/typography.css';
 
+import './theme/variables.css';
+import './theme/tailwind.css';
+
 const app = createApp(App)
   .use(IonicVue)
   .use(createPinia())

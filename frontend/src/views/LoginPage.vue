@@ -1,13 +1,10 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ t('auth.login') }}</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <form @submit.prevent="onSubmit">
-        <ion-list>
+  <PageContainer :title="t('auth.login')" max-width="420px">
+    <AppCard class="mt-6">
+      <form @submit.prevent="onSubmit" class="stack stack-4">
+        <h2 class="auth-heading">{{ t('auth.login') }}</h2>
+
+        <ion-list class="auth-list" lines="full">
           <ion-item>
             <ion-input
               v-model="email"
@@ -34,20 +31,20 @@
           <p class="form-error">{{ errorMessage }}</p>
         </ion-text>
 
-        <ion-button type="submit" expand="block" :disabled="loading" class="ion-margin-top">
+        <ion-button type="submit" expand="block" :disabled="loading">
           <ion-spinner v-if="loading" name="crescent" />
           <span v-else>{{ t('auth.submit') }}</span>
         </ion-button>
       </form>
 
-      <ion-text class="cta">
+      <ion-text class="block mt-6 text-center">
         <p>
           {{ t('auth.noAccount') }}
-          <router-link to="/register">{{ t('auth.registerCta') }}</router-link>
+          <router-link to="/register" style="text-decoration: none;">{{ t('auth.registerCta') }}</router-link>
         </p>
       </ion-text>
-    </ion-content>
-  </ion-page>
+    </AppCard>
+  </PageContainer>
 </template>
 
 <script setup lang="ts">
@@ -55,9 +52,10 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonList, IonItem, IonInput, IonButton, IonText, IonSpinner,
 } from '@ionic/vue';
+import PageContainer from '@/components/PageContainer.vue';
+import AppCard from '@/components/AppCard.vue';
 import { useAuthStore, AuthError } from '@/stores/auth';
 
 const { t } = useI18n();
@@ -96,12 +94,18 @@ async function onSubmit() {
 </script>
 
 <style scoped>
-.form-error {
-  margin: 12px 4px 0;
+.auth-heading {
+  margin: 0;
 }
-.cta {
-  display: block;
-  margin-top: 24px;
-  text-align: center;
+.auth-list {
+  background: transparent;
+}
+.auth-list ion-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+}
+.form-error {
+  margin: 0 var(--space-1);
 }
 </style>

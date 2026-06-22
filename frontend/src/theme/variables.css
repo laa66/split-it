@@ -1,0 +1,166 @@
+/*
+ * Split-it design system — design tokens on top of Ionic theming.
+ *
+ * Light mode only (dark variables stubbed for the future, not required now).
+ * Ionic color sets generated to match Ionic's color generator conventions:
+ * each color exposes -rgb / -shade / -tint / -contrast / -contrast-rgb.
+ */
+
+:root {
+  /* ---- Brand palette ---------------------------------------------------- */
+
+  /* primary — deep indigo (trust / fintech) */
+  --ion-color-primary: #4f46e5;
+  --ion-color-primary-rgb: 79, 70, 229;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #463ec9;
+  --ion-color-primary-tint: #6159e8;
+
+  /* secondary — teal / cyan */
+  --ion-color-secondary: #0ea5a4;
+  --ion-color-secondary-rgb: 14, 165, 164;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0c9190;
+  --ion-color-secondary-tint: #26aeae;
+
+  /* tertiary — soft violet accent */
+  --ion-color-tertiary: #8b5cf6;
+  --ion-color-tertiary-rgb: 139, 92, 246;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #7a51d8;
+  --ion-color-tertiary-tint: #976cf7;
+
+  /* success — green: "you get a refund / positive balance" */
+  --ion-color-success: #16a34a;
+  --ion-color-success-rgb: 22, 163, 74;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #138f41;
+  --ion-color-success-tint: #2dac5c;
+
+  /* warning — amber */
+  --ion-color-warning: #f59e0b;
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #1f2430;
+  --ion-color-warning-contrast-rgb: 31, 36, 48;
+  --ion-color-warning-shade: #d88b0a;
+  --ion-color-warning-tint: #f6a824;
+
+  /* danger — red: "you owe / negative balance" */
+  --ion-color-danger: #dc2626;
+  --ion-color-danger-rgb: 220, 38, 38;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #c22121;
+  --ion-color-danger-tint: #e03c3c;
+
+  /* neutrals */
+  --ion-color-medium: #64748b;
+  --ion-color-medium-rgb: 100, 116, 139;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #58667a;
+  --ion-color-medium-tint: #748297;
+
+  --ion-color-light: #f5f6fa;
+  --ion-color-light-rgb: 245, 246, 250;
+  --ion-color-light-contrast: #1f2430;
+  --ion-color-light-contrast-rgb: 31, 36, 48;
+  --ion-color-light-shade: #d8d9dc;
+  --ion-color-light-tint: #f6f7fb;
+
+  --ion-color-dark: #1f2430;
+  --ion-color-dark-rgb: 31, 36, 48;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1b202a;
+  --ion-color-dark-tint: #353a45;
+
+  /* ---- App surfaces ----------------------------------------------------- */
+  /* Slightly grey app background so white cards lift off it. */
+  --ion-background-color: #f5f6fa;
+  --ion-background-color-rgb: 245, 246, 250;
+  --ion-text-color: #1f2430;
+  --ion-text-color-rgb: 31, 36, 48;
+
+  /* Card / item surface */
+  --app-surface: #ffffff;
+  --app-surface-muted: #fafbfd;
+  --app-border-color: #e6e8ef;
+
+  --ion-toolbar-background: #ffffff;
+  --ion-item-background: #ffffff;
+
+  /* ---- Spacing scale ---------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* ---- Radius scale ----------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* ---- Shadow tokens ---------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(31, 36, 48, 0.06), 0 1px 3px rgba(31, 36, 48, 0.08);
+  --shadow-md: 0 4px 12px rgba(31, 36, 48, 0.08), 0 2px 4px rgba(31, 36, 48, 0.06);
+
+  /* ---- Typography ------------------------------------------------------- */
+  --ion-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.875rem;
+
+  /* Page content width on desktop */
+  --page-max-width: 600px;
+}
+
+/* ---- Global element tuning --------------------------------------------- */
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: var(--font-size-2xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+/* Cards lift off the grey background everywhere they are used. */
+ion-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-inline: 0;
+}
+
+/* ---- Utility classes (only those actually used) ------------------------ */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-2 { gap: var(--space-2); }
+.stack-3 { gap: var(--space-3); }
+.stack-4 { gap: var(--space-4); }
+.stack-6 { gap: var(--space-6); }
+
+.u-mt-2 { margin-top: var(--space-2); }
+.u-mt-4 { margin-top: var(--space-4); }
+.u-mt-6 { margin-top: var(--space-6); }
+
+.text-center { text-align: center; }

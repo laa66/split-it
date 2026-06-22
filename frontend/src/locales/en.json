@@ -4,7 +4,8 @@
   },
   "home": {
     "heading": "Welcome to Split-it",
-    "scaffold": "Application scaffold is running."
+    "scaffold": "Application scaffold is running.",
+    "apiHealth": "API health"
   },
   "common": {
     "language": "Language"

@@ -4,7 +4,8 @@
   },
   "home": {
     "heading": "Witaj w Split-it",
-    "scaffold": "Szkielet aplikacji działa."
+    "scaffold": "Szkielet aplikacji działa.",
+    "apiHealth": "Stan API"
   },
   "common": {
     "language": "Język"
