@@ -1,5 +1,10 @@
 package com.splitit.infrastructure.web.shared;
 
+import com.splitit.domain.group.exception.AlreadyMemberException;
+import com.splitit.domain.group.exception.GroupNotFoundException;
+import com.splitit.domain.group.exception.InvitationExpiredException;
+import com.splitit.domain.group.exception.InvitationNotFoundException;
+import com.splitit.domain.group.exception.InvitationNotPendingException;
 import com.splitit.domain.user.exception.EmailAlreadyUsedException;
 import com.splitit.domain.user.exception.InvalidCredentialsException;
 import com.splitit.domain.user.exception.InvalidRegistrationException;
@@ -45,6 +50,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentials(InvalidCredentialsException ex) {
         return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), List.of());
+    }
+
+    @ExceptionHandler({GroupNotFoundException.class, InvitationNotFoundException.class})
+    public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex) {
+        return build(HttpStatus.NOT_FOUND, ex.getMessage(), List.of());
+    }
+
+    @ExceptionHandler({AlreadyMemberException.class, InvitationNotPendingException.class})
+    public ResponseEntity<ErrorResponse> handleConflict(RuntimeException ex) {
+        return build(HttpStatus.CONFLICT, ex.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(InvitationExpiredException.class)
+    public ResponseEntity<ErrorResponse> handleGone(InvitationExpiredException ex) {
+        return build(HttpStatus.GONE, ex.getMessage(), List.of());
     }
 
     @ExceptionHandler(Exception.class)

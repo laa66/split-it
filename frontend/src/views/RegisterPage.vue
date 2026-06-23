@@ -4,38 +4,38 @@
       <form @submit.prevent="onSubmit" class="stack stack-4">
         <h2 class="auth-heading">{{ t('auth.register') }}</h2>
 
-        <ion-list class="auth-list" lines="full">
-          <ion-item>
-            <ion-input
-              v-model="email"
-              type="email"
-              :label="t('auth.email')"
-              label-placement="floating"
-              autocomplete="email"
-              :disabled="loading"
-            />
-          </ion-item>
-          <ion-item>
-            <ion-input
-              v-model="displayName"
-              type="text"
-              :label="t('auth.displayName')"
-              label-placement="floating"
-              autocomplete="name"
-              :disabled="loading"
-            />
-          </ion-item>
-          <ion-item>
-            <ion-input
-              v-model="password"
-              type="password"
-              :label="t('auth.password')"
-              label-placement="floating"
-              autocomplete="new-password"
-              :disabled="loading"
-            />
-          </ion-item>
-        </ion-list>
+        <ion-item>
+          <ion-input
+            v-model="email"
+            type="email"
+            :label="t('auth.email')"
+            label-placement="floating"
+            autocomplete="email"
+            :disabled="loading"
+          />
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            v-model="displayName"
+            type="text"
+            :label="t('auth.displayName')"
+            label-placement="floating"
+            autocomplete="name"
+            :disabled="loading"
+          />
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            v-model="password"
+            type="password"
+            :label="t('auth.password')"
+            label-placement="floating"
+            autocomplete="new-password"
+            :disabled="loading"
+          />
+        </ion-item>
 
         <ion-text v-if="errorMessage" color="danger">
           <p class="form-error">{{ errorMessage }}</p>
@@ -67,9 +67,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import {
-  IonList, IonItem, IonInput, IonButton, IonText, IonSpinner,
-} from '@ionic/vue';
+import { IonItem, IonInput, IonButton, IonText, IonSpinner } from '@ionic/vue';
 import PageContainer from '@/components/PageContainer.vue';
 import AppCard from '@/components/AppCard.vue';
 import { useAuthStore, AuthError } from '@/stores/auth';
@@ -119,7 +117,7 @@ async function onSubmit() {
     });
     router.push('/home');
   } catch (err) {
-    // On error the form stays populated (scenario 3.6) — we do not reset inputs.
+    // On error the form stays populated — we do not reset inputs.
     if (err instanceof AuthError) {
       errorMessage.value = err.status === 409
         ? (err.message || t('auth.emailTaken'))
@@ -138,19 +136,19 @@ async function onSubmit() {
 .auth-heading {
   margin: 0;
 }
-.auth-list {
-  background: transparent;
-}
-.auth-list ion-item {
-  --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-}
 .form-error {
-  margin: 0 var(--space-1);
+  margin: 0;
 }
 .field-errors {
-  margin: 0 var(--space-1);
+  margin: 0;
   padding-left: var(--space-5);
+}
+
+/* Pola flush z przyciskiem — usuwamy domyślne wcięcie ion-item. */
+form ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
 }
 </style>

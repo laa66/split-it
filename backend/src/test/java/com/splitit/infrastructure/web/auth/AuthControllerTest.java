@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.splitit.domain.group.port.in.ClaimPendingInvitationsUseCase;
 import com.splitit.domain.user.exception.EmailAlreadyUsedException;
 import com.splitit.domain.user.exception.InvalidCredentialsException;
 import com.splitit.domain.user.model.User;
@@ -40,6 +41,9 @@ class AuthControllerTest {
 
     @MockBean
     private JwtTokenProvider tokenProvider;
+
+    @MockBean
+    private ClaimPendingInvitationsUseCase claimPendingInvitationsUseCase;
 
     private User sampleUser() {
         return new User(UUID.randomUUID(), "alice@example.com", "Alice", "HASH", OffsetDateTime.now());

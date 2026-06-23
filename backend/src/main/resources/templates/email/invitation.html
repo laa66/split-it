@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Split-it invitation</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a;">
+<h2>You've been invited to Split-it</h2>
+<p>
+    You have been invited to join the group
+    <strong th:text="${groupName}">Group name</strong> on Split-it.
+</p>
+<p>
+    To accept the invitation, create your account using the link below.
+    The invitation is tied to this email address.
+</p>
+<p>
+    <a th:href="${registrationLink}"
+       style="display:inline-block;padding:10px 18px;background:#3880ff;color:#fff;text-decoration:none;border-radius:4px;">
+        Create account &amp; join
+    </a>
+</p>
+<p style="font-size: 12px; color: #888;">
+    If the button does not work, copy this link into your browser:<br/>
+    <span th:text="${registrationLink}">link</span>
+</p>
+</body>
+</html>

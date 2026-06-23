@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import RegisterPage from '@/views/RegisterPage.vue';
+import GroupDetailPage from '@/views/GroupDetailPage.vue';
 import { useAuthStore } from '@/stores/auth';
 
 // Routes reachable without authentication. Extend as new public pages appear.
@@ -12,6 +13,7 @@ const PUBLIC_ROUTES = ['/login', '/register'];
 const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/home' },
   { path: '/home', name: 'home', component: HomePage },
+  { path: '/groups/:id', name: 'group-detail', component: GroupDetailPage, props: true },
   { path: '/login', name: 'login', component: LoginPage },
   { path: '/register', name: 'register', component: RegisterPage },
 ];

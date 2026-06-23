@@ -82,4 +82,5 @@ CREATE INDEX idx_expenses_group        ON expenses (group_id);
 CREATE INDEX idx_expenses_group_date   ON expenses (group_id, expense_date DESC);
 CREATE INDEX idx_expense_shares_expense ON expense_shares (expense_id);
 CREATE INDEX idx_invitations_token     ON invitations (token);
+CREATE UNIQUE INDEX idx_invitations_unique_pending ON invitations (group_id, invited_email) WHERE status = 'PENDING';
 CREATE INDEX idx_settlements_group     ON settlements (group_id);

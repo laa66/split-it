@@ -3,12 +3,46 @@
     "title": "Split-it"
   },
   "home": {
-    "heading": "Witaj w Split-it",
-    "scaffold": "Szkielet aplikacji działa.",
-    "apiHealth": "Stan API"
+    "heading": "Witaj w Split-it"
   },
   "common": {
-    "language": "Język"
+    "language": "Język",
+    "back": "Wstecz",
+    "retry": "Spróbuj ponownie"
+  },
+  "groups": {
+    "title": "Twoje grupy",
+    "empty": "Nie masz jeszcze żadnych grup. Utwórz pierwszą, aby zacząć dzielić wydatki.",
+    "create": "Nowa grupa",
+    "createTitle": "Utwórz grupę",
+    "name": "Nazwa",
+    "namePlaceholder": "np. Wyjazd w góry",
+    "description": "Opis",
+    "descriptionOptional": "Opis (opcjonalnie)",
+    "descriptionPlaceholder": "Krótki opis grupy",
+    "submit": "Utwórz",
+    "cancel": "Anuluj",
+    "members": "Członkowie",
+    "membersCount": "Członkowie: {count}",
+    "createdAtLabel": "Utworzono",
+    "createdAt": "Utworzono {date}",
+    "role": {
+      "owner": "Właściciel",
+      "member": "Członek"
+    },
+    "invite": "Zaproś uczestnika",
+    "inviteTitle": "Zaproś do grupy",
+    "inviteEmail": "Adres e-mail",
+    "inviteEmailPlaceholder": "osoba@example.com",
+    "inviteSubmit": "Wyślij zaproszenie",
+    "inviteSent": "Zaproszenie zostało wysłane na podany adres e-mail.",
+    "inviteAddedNow": "Użytkownik został od razu dodany do grupy.",
+    "inviteInvalidEmail": "Podaj prawidłowy adres e-mail.",
+    "inviteError": "Nie udało się wysłać zaproszenia. Spróbuj ponownie.",
+    "notFound": "Nie znaleziono grupy lub nie masz do niej dostępu.",
+    "loadError": "Nie udało się wczytać grupy. Spróbuj ponownie.",
+    "createError": "Nie udało się utworzyć grupy. Spróbuj ponownie.",
+    "open": "Otwórz"
   },
   "auth": {
     "login": "Logowanie",

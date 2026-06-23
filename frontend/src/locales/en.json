@@ -3,12 +3,46 @@
     "title": "Split-it"
   },
   "home": {
-    "heading": "Welcome to Split-it",
-    "scaffold": "Application scaffold is running.",
-    "apiHealth": "API health"
+    "heading": "Welcome to Split-it"
   },
   "common": {
-    "language": "Language"
+    "language": "Language",
+    "back": "Back",
+    "retry": "Try again"
+  },
+  "groups": {
+    "title": "Your groups",
+    "empty": "You don't have any groups yet. Create your first one to start splitting expenses.",
+    "create": "New group",
+    "createTitle": "Create group",
+    "name": "Name",
+    "namePlaceholder": "e.g. Mountain trip",
+    "description": "Description",
+    "descriptionOptional": "Description (optional)",
+    "descriptionPlaceholder": "A short description of the group",
+    "submit": "Create",
+    "cancel": "Cancel",
+    "members": "Members",
+    "membersCount": "Members: {count}",
+    "createdAtLabel": "Created",
+    "createdAt": "Created {date}",
+    "role": {
+      "owner": "Owner",
+      "member": "Member"
+    },
+    "invite": "Invite participant",
+    "inviteTitle": "Invite to group",
+    "inviteEmail": "Email address",
+    "inviteEmailPlaceholder": "person@example.com",
+    "inviteSubmit": "Send invitation",
+    "inviteSent": "An invitation has been sent to the given email address.",
+    "inviteAddedNow": "The user was added to the group right away.",
+    "inviteInvalidEmail": "Please enter a valid email address.",
+    "inviteError": "Could not send the invitation. Please try again.",
+    "notFound": "Group not found or you don't have access to it.",
+    "loadError": "Could not load the group. Please try again.",
+    "createError": "Could not create the group. Please try again.",
+    "open": "Open"
   },
   "auth": {
     "login": "Sign in",
