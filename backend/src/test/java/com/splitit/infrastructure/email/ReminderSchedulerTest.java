@@ -12,7 +12,7 @@ class ReminderSchedulerTest {
     @Test
     void delegates_to_use_case() {
         SendRemindersUseCase useCase = mock(SendRemindersUseCase.class);
-        ReminderScheduler scheduler = new ReminderScheduler(useCase);
+        ReminderScheduler scheduler = new ReminderScheduler(useCase, "0 0 9 * * MON");
 
         scheduler.sendReminders();
 
@@ -23,7 +23,7 @@ class ReminderSchedulerTest {
     void swallows_exception_from_use_case() {
         SendRemindersUseCase useCase = mock(SendRemindersUseCase.class);
         doThrow(new RuntimeException("DB down")).when(useCase).sendReminders();
-        ReminderScheduler scheduler = new ReminderScheduler(useCase);
+        ReminderScheduler scheduler = new ReminderScheduler(useCase, "0 0 9 * * MON");
 
         // must not propagate
         scheduler.sendReminders();

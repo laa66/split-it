@@ -84,6 +84,28 @@
               @delete="onDeleteExpense"
             />
           </AppCard>
+
+          <div v-if="expensesStore.totalPages > 1" class="pager">
+            <ion-button
+              size="small"
+              fill="outline"
+              :disabled="expensesStore.currentPage === 0 || expensesStore.loading"
+              @click="changePage(expensesStore.currentPage - 1)"
+            >
+              {{ t('expenses.prevPage') }}
+            </ion-button>
+            <span class="text-sm text-medium">
+              {{ t('expenses.pageOf', { page: expensesStore.currentPage + 1, total: expensesStore.totalPages }) }}
+            </span>
+            <ion-button
+              size="small"
+              fill="outline"
+              :disabled="expensesStore.currentPage >= expensesStore.totalPages - 1 || expensesStore.loading"
+              @click="changePage(expensesStore.currentPage + 1)"
+            >
+              {{ t('expenses.nextPage') }}
+            </ion-button>
+          </div>
         </template>
       </section>
 
@@ -227,6 +249,15 @@ function goToAddExpense(): void {
   router.push({ name: 'add-expense', params: { id: groupId.value } });
 }
 
+async function changePage(page: number): Promise<void> {
+  if (page < 0 || page >= expensesStore.totalPages) return;
+  try {
+    await expensesStore.fetchExpenses(groupId.value, page);
+  } catch {
+    // store sets its own error state; list keeps previous page
+  }
+}
+
 function goToSettlements(): void {
   router.push({ name: 'settlements', params: { id: groupId.value } });
 }
@@ -296,6 +327,13 @@ onMounted(loadGroup);
 .button-group {
   display: flex;
   gap: 0.5rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
 }
 
 .empty-state {

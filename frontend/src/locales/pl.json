@@ -77,7 +77,10 @@
     "delete": "Usuń",
     "deleteConfirm": "Czy na pewno chcesz usunąć ten wydatek?",
     "saveError": "Nie udało się zapisać wydatku. Spróbuj ponownie.",
-    "loadError": "Nie udało się wczytać wydatków. Spróbuj ponownie."
+    "loadError": "Nie udało się wczytać wydatków. Spróbuj ponownie.",
+    "prevPage": "Poprzednia",
+    "nextPage": "Następna",
+    "pageOf": "Strona {page} z {total}"
   },
   "settlements": {
     "title": "Plan rozliczeń",
