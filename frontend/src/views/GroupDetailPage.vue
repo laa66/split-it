@@ -50,11 +50,61 @@
         </AppCard>
       </section>
 
+      <!-- Expenses section -->
+      <section class="stack stack-3">
+        <div class="section-header">
+          <h2 class="m-0 text-lg font-semibold">
+            {{ t('expenses.title') }} ({{ expensesStore.totalElements }})
+          </h2>
+          <ion-button size="small" @click="goToAddExpense">
+            {{ t('expenses.add') }}
+          </ion-button>
+        </div>
+
+        <div v-if="expensesStore.loading" class="flex justify-center py-4">
+          <ion-spinner name="crescent" />
+        </div>
+
+        <AppCard v-else-if="expensesStore.expenses.length === 0" padding="4">
+          <div class="empty-state">
+            <p class="m-0 text-medium text-sm">{{ t('expenses.empty') }}</p>
+          </div>
+        </AppCard>
+
+        <template v-else>
+          <!-- ExpenseListItem will be provided by Noob; rendered per expense here -->
+          <AppCard
+            v-for="expense in expensesStore.expenses"
+            :key="expense.id"
+            padding="0"
+          >
+            <ExpenseListItem
+              :expense="expense"
+              :members="group.members"
+              @delete="onDeleteExpense"
+            />
+          </AppCard>
+        </template>
+      </section>
+
+      <!-- Balance section -->
+      <section class="stack stack-3">
+        <div class="section-header">
+          <h2 class="m-0 text-lg font-semibold">{{ t('expenses.balances') }}</h2>
+          <ion-button size="small" @click="goToSettlements">
+            {{ t('settlements.viewPlan') }}
+          </ion-button>
+        </div>
+        <BalanceCard
+          :balances="expensesStore.balances"
+        />
+      </section>
+
       <section class="stack stack-3">
         <h2 class="m-0 text-lg font-semibold">{{ t('groups.inviteTitle') }}</h2>
         <AppCard>
           <form @submit.prevent="onInvite" class="stack stack-4">
-            <ion-item class="invite-item">
+            <ion-item>
               <ion-input
                 v-model="inviteEmail"
                 type="email"
@@ -91,7 +141,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
   IonButtons, IonBackButton, IonSpinner, IonText, IonList, IonItem,
@@ -99,13 +149,18 @@ import {
 } from '@ionic/vue';
 import PageContainer from '@/components/PageContainer.vue';
 import AppCard from '@/components/AppCard.vue';
+import ExpenseListItem from '@/components/ExpenseListItem.vue';
+import BalanceCard from '@/components/BalanceCard.vue';
 import { useGroupsStore, GroupError } from '@/stores/groups';
+import { useExpensesStore } from '@/stores/expenses';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const store = useGroupsStore();
+const expensesStore = useExpensesStore();
 
 const groupId = computed(() => String(route.params.id));
 const group = computed(() => store.currentGroup);
@@ -129,6 +184,11 @@ async function loadGroup() {
   errorMessage.value = '';
   try {
     await store.fetchGroup(groupId.value);
+    // Fetch expenses and balances after group is loaded
+    await Promise.all([
+      expensesStore.fetchExpenses(groupId.value),
+      expensesStore.fetchBalance(groupId.value),
+    ]);
   } catch (err) {
     if (err instanceof GroupError && err.status === 404) {
       errorMessage.value = t('groups.notFound');
@@ -136,6 +196,23 @@ async function loadGroup() {
       errorMessage.value = t('groups.loadError');
     }
   }
+}
+
+async function onDeleteExpense(expenseId: string): Promise<void> {
+  try {
+    await expensesStore.removeExpense(expenseId, groupId.value);
+  } catch {
+    // removeExpense already refreshes balances; ignore UI error silently here
+    // (ExpenseListItem may show its own error or user can retry)
+  }
+}
+
+function goToAddExpense(): void {
+  router.push({ name: 'add-expense', params: { id: groupId.value } });
+}
+
+function goToSettlements(): void {
+  router.push({ name: 'settlements', params: { id: groupId.value } });
 }
 
 async function onInvite() {
@@ -174,11 +251,17 @@ onMounted(loadGroup);
   background: transparent;
 }
 
-/* Pole zapraszania flush z przyciskiem — usuwamy domyślne wcięcie ion-item. */
-.invite-item {
-  --padding-start: 0;
-  --padding-end: 0;
-  --inner-padding-end: 0;
-  --background: transparent;
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  text-align: center;
 }
 </style>

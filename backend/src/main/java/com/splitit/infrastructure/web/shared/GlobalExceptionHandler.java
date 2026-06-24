@@ -1,5 +1,8 @@
 package com.splitit.infrastructure.web.shared;
 
+import com.splitit.domain.expense.exception.ExpenseAccessDeniedException;
+import com.splitit.domain.expense.exception.ExpenseNotFoundException;
+import com.splitit.domain.expense.exception.InvalidSplitException;
 import com.splitit.domain.group.exception.AlreadyMemberException;
 import com.splitit.domain.group.exception.GroupNotFoundException;
 import com.splitit.domain.group.exception.InvitationExpiredException;
@@ -57,7 +60,18 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, ex.getMessage(), List.of());
     }
 
-    @ExceptionHandler({GroupNotFoundException.class, InvitationNotFoundException.class})
+    @ExceptionHandler(InvalidSplitException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSplit(InvalidSplitException ex) {
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(ExpenseAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleExpenseAccessDenied(ExpenseAccessDeniedException ex) {
+        return build(HttpStatus.FORBIDDEN, ex.getMessage(), List.of());
+    }
+
+    @ExceptionHandler({GroupNotFoundException.class, InvitationNotFoundException.class,
+            ExpenseNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex) {
         return build(HttpStatus.NOT_FOUND, ex.getMessage(), List.of());
     }

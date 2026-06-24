@@ -1,5 +1,8 @@
 package com.splitit.infrastructure.config;
 
+import com.splitit.domain.expense.port.out.ExpenseRepository;
+import com.splitit.domain.expense.port.out.GroupMembershipPort;
+import com.splitit.domain.expense.service.ExpenseService;
 import com.splitit.domain.group.port.out.EmailSender;
 import com.splitit.domain.group.port.out.GroupMemberRepository;
 import com.splitit.domain.group.port.out.GroupRepository;
@@ -7,6 +10,9 @@ import com.splitit.domain.group.port.out.InvitationRepository;
 import com.splitit.domain.group.port.out.UserDirectory;
 import com.splitit.domain.group.service.GroupService;
 import com.splitit.domain.group.service.InvitationService;
+import com.splitit.domain.settlement.port.out.GroupBalanceProvider;
+import com.splitit.domain.settlement.port.out.SettlementRepository;
+import com.splitit.domain.settlement.service.SettlementService;
 import com.splitit.domain.user.port.out.PasswordHasher;
 import com.splitit.domain.user.port.out.UserRepository;
 import com.splitit.domain.user.service.UserService;
@@ -37,6 +43,18 @@ public class DomainConfig {
     public GroupService groupService(GroupRepository groupRepository,
                                      GroupMemberRepository groupMemberRepository) {
         return new GroupService(groupRepository, groupMemberRepository);
+    }
+
+    @Bean
+    public ExpenseService expenseService(ExpenseRepository expenseRepository,
+                                         GroupMembershipPort groupMembershipPort) {
+        return new ExpenseService(expenseRepository, groupMembershipPort);
+    }
+
+    @Bean
+    public SettlementService settlementService(SettlementRepository settlementRepository,
+                                               GroupBalanceProvider groupBalanceProvider) {
+        return new SettlementService(settlementRepository, groupBalanceProvider);
     }
 
     @Bean
