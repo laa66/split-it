@@ -9,6 +9,8 @@ import com.splitit.infrastructure.web.auth.dto.AuthResponse;
 import com.splitit.infrastructure.web.auth.dto.LoginRequest;
 import com.splitit.infrastructure.web.auth.dto.RegisterRequest;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     private final RegisterUserUseCase registerUserUseCase;
     private final AuthenticateUserUseCase authenticateUserUseCase;
@@ -41,6 +45,7 @@ public class AuthController {
                 request.email(), request.displayName(), request.password()));
         // Option 1: auto-join any groups the user was invited to before signing up.
         claimPendingInvitationsUseCase.claimFor(user.getId(), user.getEmail());
+        log.info("User registered: id={} email={}", user.getId(), user.getEmail());
         return new AuthResponse(tokenProvider.generateToken(user));
     }
 
@@ -48,6 +53,7 @@ public class AuthController {
     public AuthResponse login(@Valid @RequestBody LoginRequest request) {
         User user = authenticateUserUseCase.authenticate(new AuthenticateUserUseCase.AuthenticateCommand(
                 request.email(), request.password()));
+        log.info("User logged in: id={} email={}", user.getId(), user.getEmail());
         return new AuthResponse(tokenProvider.generateToken(user));
     }
 }

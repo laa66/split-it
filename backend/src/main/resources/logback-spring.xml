@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{traceId:---------}] [user=%X{userId:-anonymous}] %logger{36} - %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- Verbose application logs in dev, quieter in prod. -->
+    <springProfile name="dev">
+        <logger name="com.splitit" level="DEBUG"/>
+    </springProfile>
+    <springProfile name="prod">
+        <logger name="com.splitit" level="INFO"/>
+    </springProfile>
+</configuration>

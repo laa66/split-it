@@ -13,6 +13,8 @@ import com.splitit.infrastructure.web.group.dto.InviteResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/groups")
 public class GroupController {
+
+    private static final Logger log = LoggerFactory.getLogger(GroupController.class);
 
     private final ManageGroupsUseCase manageGroupsUseCase;
     private final InviteToGroupUseCase inviteToGroupUseCase;
@@ -51,6 +55,7 @@ public class GroupController {
                                             @Valid @RequestBody CreateGroupRequest request) {
         GroupDetails details = manageGroupsUseCase.createGroup(user.id(),
                 new ManageGroupsUseCase.CreateGroupCommand(request.name(), request.description()));
+        log.info("Group created: id={} by user={}", details.group().getId(), user.id());
         return GroupDetailsResponse.from(details);
     }
 
@@ -66,6 +71,8 @@ public class GroupController {
                                  @PathVariable UUID id,
                                  @Valid @RequestBody InviteRequest request) {
         InviteResult result = inviteToGroupUseCase.invite(user.id(), id, request.email());
+        log.info("Invite to group={} by user={} addedImmediately={}",
+                id, user.id(), result.addedImmediately());
         String message = result.addedImmediately()
                 ? "User was added to the group."
                 : "Invitation email sent.";

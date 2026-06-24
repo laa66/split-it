@@ -93,6 +93,9 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ErrorResponse> build(HttpStatus status, String message, List<String> errors) {
+        if (status.is4xxClientError()) {
+            log.warn("Request rejected: {} - {}", status.value(), message);
+        }
         return ResponseEntity.status(status).body(ErrorResponse.of(status.value(), message, errors));
     }
 

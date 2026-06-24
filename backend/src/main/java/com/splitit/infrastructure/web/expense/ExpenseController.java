@@ -13,6 +13,8 @@ import com.splitit.infrastructure.web.expense.dto.MemberBalanceResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/groups/{groupId}")
 public class ExpenseController {
+
+    private static final Logger log = LoggerFactory.getLogger(ExpenseController.class);
 
     private final ManageExpensesUseCase manageExpensesUseCase;
     private final CalculateBalanceUseCase calculateBalanceUseCase;
@@ -55,7 +59,11 @@ public class ExpenseController {
                 request.title(), request.amount(), request.paidBy(),
                 request.splitType(), request.expenseDate(), participants);
 
-        return ExpenseResponse.from(manageExpensesUseCase.addExpense(user.id(), groupId, command));
+        ExpenseResponse response = ExpenseResponse.from(
+                manageExpensesUseCase.addExpense(user.id(), groupId, command));
+        log.info("Expense added: id={} group={} amount={} split={} by user={}",
+                response.id(), groupId, request.amount(), request.splitType(), user.id());
+        return response;
     }
 
     @GetMapping("/expenses")

@@ -9,6 +9,8 @@ import com.splitit.infrastructure.web.settlement.dto.SettlementSuggestionRespons
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/groups/{groupId}/settlements")
 public class SettlementController {
+
+    private static final Logger log = LoggerFactory.getLogger(SettlementController.class);
 
     private final SettlementUseCase settlementUseCase;
 
@@ -51,7 +55,10 @@ public class SettlementController {
         RecordSettlementCommand cmd = new RecordSettlementCommand(
                 request.payerId(), request.payeeId(), request.amount());
 
-        return SettlementResponse.from(
+        SettlementResponse response = SettlementResponse.from(
                 settlementUseCase.recordSettlement(user.id(), groupId, cmd));
+        log.info("Settlement recorded: group={} payer={} payee={} amount={} by user={}",
+                groupId, request.payerId(), request.payeeId(), request.amount(), user.id());
+        return response;
     }
 }

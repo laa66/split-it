@@ -6,6 +6,8 @@ import com.splitit.infrastructure.report.PdfReportService;
 import com.splitit.infrastructure.security.AuthenticatedUser;
 import java.time.LocalDate;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/groups/{groupId}/report")
 public class ReportController {
+
+    private static final Logger log = LoggerFactory.getLogger(ReportController.class);
 
     private final GenerateReportUseCase generateReportUseCase;
     private final PdfReportService pdfReportService;
@@ -39,6 +43,7 @@ public class ReportController {
 
         GroupReport report = generateReportUseCase.generate(user.id(), groupId, from, to);
         byte[] pdf = pdfReportService.render(report);
+        log.info("PDF report generated: group={} bytes={} by user={}", groupId, pdf.length, user.id());
 
         String filename = "report-" + report.groupName().replaceAll("[^a-zA-Z0-9\\-_]", "_") + ".pdf";
 
