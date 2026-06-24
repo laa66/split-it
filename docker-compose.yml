@@ -37,8 +37,9 @@ services:
       MAIL_PORT: ${MAIL_PORT}
       MAIL_USER: ${MAIL_USER}
       MAIL_PASS: ${MAIL_PASS}
+      MAIL_FROM: ${MAIL_FROM:-no-reply@split-it.local}
       APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
-      REMINDER_CRON: ${REMINDER_CRON:-0 0 9 * * MON}
+      # REMINDER_CRON: ${REMINDER_CRON:-0 0 9 * * MON}
     depends_on:
       db:
         condition: service_healthy

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Split-it balance reminder</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a;">
+<h2>You have an outstanding balance on Split-it</h2>
+<p>
+    Hi <strong th:text="${displayName}">User</strong>,
+</p>
+<p>
+    You still owe money in the group <strong th:text="${groupName}">Group</strong> on Split-it.
+</p>
+<p style="font-size: 18px;">
+    Amount owed:
+    <strong th:text="${#numbers.formatDecimal(amountOwed, 1, 'COMMA', 2, 'POINT')}">0.00</strong>
+</p>
+<p>
+    Log in to Split-it to settle your balance.
+</p>
+</body>
+</html>

@@ -87,6 +87,11 @@
     "loadError": "Nie udało się wczytać planu rozliczeń. Spróbuj ponownie.",
     "markPaidError": "Nie udało się zarejestrować płatności. Spróbuj ponownie."
   },
+  "report": {
+    "download": "Pobierz PDF",
+    "downloading": "Pobieranie...",
+    "downloadError": "Nie udało się pobrać raportu. Spróbuj ponownie."
+  },
   "auth": {
     "login": "Logowanie",
     "register": "Rejestracja",

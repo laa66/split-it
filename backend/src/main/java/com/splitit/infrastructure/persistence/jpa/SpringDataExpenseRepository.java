@@ -25,6 +25,20 @@ public interface SpringDataExpenseRepository extends JpaRepository<ExpenseJpaEnt
             @Param("offset") long offset);
 
     @Query(value = """
+            SELECT e.expense_date AS expenseDate, e.title AS title,
+                   u.display_name AS paidByName, e.amount AS amount, e.split_type AS splitType
+            FROM expenses e
+            JOIN users u ON u.id = e.paid_by
+            WHERE e.group_id = :groupId
+              AND e.expense_date BETWEEN :from AND :to
+            ORDER BY e.expense_date DESC, e.created_at DESC
+            """, nativeQuery = true)
+    List<ReportExpenseView> findExpensesInRange(
+            @Param("groupId") UUID groupId,
+            @Param("from") java.time.LocalDate from,
+            @Param("to") java.time.LocalDate to);
+
+    @Query(value = """
             SELECT u.id AS userId, u.display_name AS displayName,
                    COALESCE(paid.total, 0) - COALESCE(owed.total, 0)
                    + COALESCE(settled_paid.total, 0) - COALESCE(settled_received.total, 0)

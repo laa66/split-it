@@ -87,6 +87,11 @@
     "loadError": "Could not load the settlement plan. Please try again.",
     "markPaidError": "Could not record the payment. Please try again."
   },
+  "report": {
+    "download": "Download PDF",
+    "downloading": "Downloading...",
+    "downloadError": "Could not download the report. Please try again."
+  },
   "auth": {
     "login": "Sign in",
     "register": "Sign up",

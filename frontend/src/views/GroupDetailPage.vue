@@ -91,13 +91,26 @@
       <section class="stack stack-3">
         <div class="section-header">
           <h2 class="m-0 text-lg font-semibold">{{ t('expenses.balances') }}</h2>
-          <ion-button size="small" @click="goToSettlements">
-            {{ t('settlements.viewPlan') }}
-          </ion-button>
+          <div class="button-group">
+            <ion-button size="small" @click="goToSettlements">
+              {{ t('settlements.viewPlan') }}
+            </ion-button>
+            <ion-button
+              size="small"
+              @click="downloadReport"
+              :disabled="reportDownloading"
+            >
+              <ion-spinner v-if="reportDownloading" name="crescent" />
+              <span v-else>{{ t('report.download') }}</span>
+            </ion-button>
+          </div>
         </div>
         <BalanceCard
           :balances="expensesStore.balances"
         />
+        <ion-text v-if="reportError" color="danger">
+          <p class="m-0">{{ reportError }}</p>
+        </ion-text>
       </section>
 
       <section class="stack stack-3">
@@ -153,6 +166,7 @@ import ExpenseListItem from '@/components/ExpenseListItem.vue';
 import BalanceCard from '@/components/BalanceCard.vue';
 import { useGroupsStore, GroupError } from '@/stores/groups';
 import { useExpensesStore } from '@/stores/expenses';
+import { getReport } from '@/api/reports';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -172,6 +186,8 @@ const inviting = ref(false);
 const inviteError = ref('');
 const toastOpen = ref(false);
 const toastMessage = ref('');
+const reportDownloading = ref(false);
+const reportError = ref('');
 
 const pageTitle = computed(() => group.value?.name ?? t('groups.title'));
 
@@ -215,6 +231,26 @@ function goToSettlements(): void {
   router.push({ name: 'settlements', params: { id: groupId.value } });
 }
 
+async function downloadReport(): Promise<void> {
+  reportError.value = '';
+  reportDownloading.value = true;
+  try {
+    const blob = await getReport(groupId.value);
+    const objectURL = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectURL;
+    link.download = `report-${groupId.value}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(objectURL);
+  } catch {
+    reportError.value = t('report.downloadError');
+  } finally {
+    reportDownloading.value = false;
+  }
+}
+
 async function onInvite() {
   inviteError.value = '';
   const email = inviteEmail.value.trim();
@@ -255,6 +291,11 @@ onMounted(loadGroup);
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .empty-state {

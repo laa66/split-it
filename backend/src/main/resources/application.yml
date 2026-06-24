@@ -40,9 +40,9 @@ app:
   invitation:
     expiration-days: ${INVITATION_EXPIRATION_DAYS:7}
   # Phase 5 ReminderScheduler reads this via @Scheduled(cron = "${app.reminder.cron}").
-  # Spring cron: sec min hour day month weekday. Default: Mondays 09:00.
+  # Spring cron: sec min hour day month weekday. Default: every minute (testing).
   reminder:
-    cron: ${REMINDER_CRON:0 0 9 * * MON}
+    cron: ${REMINDER_CRON:0 * * * * *}
 
 management:
   endpoints:

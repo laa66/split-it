@@ -10,6 +10,11 @@ import com.splitit.domain.group.port.out.InvitationRepository;
 import com.splitit.domain.group.port.out.UserDirectory;
 import com.splitit.domain.group.service.GroupService;
 import com.splitit.domain.group.service.InvitationService;
+import com.splitit.domain.reminder.port.out.ReminderDataProvider;
+import com.splitit.domain.reminder.port.out.ReminderEmailSender;
+import com.splitit.domain.reminder.service.ReminderService;
+import com.splitit.domain.report.port.out.ReportDataProvider;
+import com.splitit.domain.report.service.ReportService;
 import com.splitit.domain.settlement.port.out.GroupBalanceProvider;
 import com.splitit.domain.settlement.port.out.SettlementRepository;
 import com.splitit.domain.settlement.service.SettlementService;
@@ -55,6 +60,17 @@ public class DomainConfig {
     public SettlementService settlementService(SettlementRepository settlementRepository,
                                                GroupBalanceProvider groupBalanceProvider) {
         return new SettlementService(settlementRepository, groupBalanceProvider);
+    }
+
+    @Bean
+    public ReminderService reminderService(ReminderDataProvider reminderDataProvider,
+                                           ReminderEmailSender reminderEmailSender) {
+        return new ReminderService(reminderDataProvider, reminderEmailSender);
+    }
+
+    @Bean
+    public ReportService reportService(ReportDataProvider reportDataProvider, Clock clock) {
+        return new ReportService(reportDataProvider, clock);
     }
 
     @Bean
